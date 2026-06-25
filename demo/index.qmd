@@ -555,3 +555,186 @@ fig.tight_layout()
 #show chart
 plt.show()
 ```
+
+## Slope chart
+
+A slope chart looks like a line chart, but unlike the line chart, it has only two data points for each line. The change between two data points can be easily identified with connected lines (slope up means increase, slope down means decrease).
+
+```{python}
+# import libraries
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+plt.style.use(['unhcrpyplotstyle','slope'])
+
+#load and reshape the data
+df = pd.read_csv('https://raw.githubusercontent.com/GDS-ODSSS/unhcr-dataviz-platform/master/data/change_over_time/slope_2.csv')
+
+#set a list of country names
+countries=['Afghanistan','Dem. Rep. of the Congo','Myanmar','South Sudan','Syrian Arab Rep.']
+
+#plot the chart
+fig, ax = plt.subplots()
+for i in countries:
+    temp = df[df['country_origin'] == i]
+    plt.plot(temp.year, temp.refugees_number, color='#0072BC', marker='o', markersize=5)
+    # start label
+    plt.text(temp.year.values[0]-0.4, temp.refugees_number.values[0], i, ha='right', va='center')
+    # end label
+    plt.text(temp.year.values[1]+0.4, temp.refugees_number.values[1], i, ha='left', va='center')
+
+ticks = plt.xticks([2000, 2021])
+xl = plt.xlim(1990,2031)
+yl = plt.ylim(0, 7*1e6)
+
+#set chart title
+ax.set_title('Evolution of refugee population by country of origin |2000 vs 2021')
+
+#set y-axis label
+ax.set_ylabel('Number of people (millions)')
+
+#format x-axis tick labels
+def number_formatter(x, pos):
+    if x >= 1e6:
+        s = '{:1.0f}M'.format(x*1e-6)
+    elif x < 1e6 and x > 0:
+        s = '{:1.0f}K'.format(x*1e-3)
+    else:
+        s = '{:1.0f}'.format(x)
+    return s
+ax.yaxis.set_major_formatter(number_formatter)
+
+#set chart source and copyright
+plt.annotate('Source: UNHCR Refugee Data Finder', (0,0), (0, -25), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+plt.annotate('©UNHCR, The UN Refugee Agency', (0,0), (0, -35), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+
+#adjust chart margin and layout
+fig.tight_layout()
+
+# Save the figure to the specified path
+#fig.savefig('plot/slope.png')
+
+#show chart
+plt.show()
+```
+
+## Stacked area chart
+
+As a variation of a simple area chart, a stacked area chart displays the changes of value of multiple data series over a period of time.
+
+```{python}
+# import libraries
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+plt.style.use(['unhcrpyplotstyle','area'])
+
+#load and reshape the data
+df = pd.read_csv('https://raw.githubusercontent.com/GDS-ODSSS/unhcr-dataviz-platform/master/data/change_over_time/area_stacked.csv')
+df = df.pivot_table(index='months', columns='funding_type', values='funding_million', sort=False)
+df = df.reset_index()
+
+#compute data for plotting
+x = df['months']
+y1 = df['Earmarked']
+y2 = df['Softly earmarked']
+y3 = df['Tightly earmarked']
+y4 = df['Unearmarked']
+
+#plot the chart
+fig, ax = plt.subplots()
+ax.stackplot(x, y1, y2, y3, y4, labels = ['Earmarked', 'Softly earmarked', 'Tightly earmarked', 'Unearmarked'])
+
+#set chart legend
+ax.legend(loc=(0,1.05), ncol=4)
+
+#set chart title
+ax.set_title('Evolution of funding in West Africa region | 2020', pad=50)
+
+#set y-axis label
+ax.set_ylabel('USD millions')
+
+#set y-axis limit
+yl = plt.ylim(0,500)
+
+#set chart source and copyright
+plt.annotate('Source: UNHCR Refugee Data Finder', (0,0), (0, -25), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+plt.annotate('©UNHCR, The UN Refugee Agency', (0,0), (0, -35), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+
+#adjust chart margin and layout
+fig.tight_layout()
+
+# Save the figure to the specified path
+#fig.savefig('plot/stacked-area.png')
+
+#show chart
+plt.show()
+```
+
+## Streamgraph
+
+A streamgraph is a variation of a stacked area chart. Instead of displaying values on top of a fixed, straight baseline at the bottom of the stack, the values of the streamgraph are displaced around a central baseline.
+
+```{python}
+# import libraries
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+plt.style.use(['unhcrpyplotstyle','streamgraph'])
+
+#load and reshape the data
+df = pd.read_csv('https://raw.githubusercontent.com/GDS-ODSSS/unhcr-dataviz-platform/master/data/change_over_time/streamgraph.csv')
+df = df.pivot_table(index='year', columns='population_type', values='population_number')
+df = df.reset_index()
+df= df.fillna(0)
+
+#compute data for plotting
+x = df['year']
+y1 = df['VDA']
+y2 = df['OOC']
+y3 = df['STA']
+y4 = df['IDP']
+y5 = df['ASY']
+y6 = df['REF']
+
+#plot the chart
+fig, ax = plt.subplots()
+ax.stackplot(x, y1, y2, y3, y4, y5, y6, colors = ['#EF4A60', '#999999', '#E1CC0D', '#00B398', '#18375F', '#0072BC'], labels = [ 'Venezuelans displaced abroad', 'Others of concern', 'Stateless persons', 'IDPs', 'Asylum-seekers', 'Refugees' ], baseline='weighted_wiggle')
+
+#set chart title
+ax.set_title('Evolution of people of concern to UNHCR | 1991-2020', pad=50)
+
+#set chart legend
+ax.legend(loc=(0,1), ncol=3)
+
+#set y-axis label
+ax.set_ylabel('Number of people (millions)')
+
+#format y-axis tick labels
+def number_formatter(x, pos):
+    if x >= 1e6:
+        s = '{:1.0f}M'.format(x*1e-6)
+    elif x < 1e6 and x > 0:
+        s = '{:1.0f}K'.format(x*1e-3)
+    elif x > -1e6 and x < 0:
+        s = '{:1.0f}K'.format(x*1e-3)
+    elif x <= -1e6:
+        s = '{:1.0f}M'.format(x*1e-6)
+    else:
+        s = '{:1.0f}'.format(x)
+    return s
+ax.yaxis.set_major_formatter(number_formatter)
+
+#set chart source and copyright
+plt.annotate('Source: UNHCR Refugee Data Finder', (0,0), (0, -25), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+plt.annotate('©UNHCR, The UN Refugee Agency', (0,0), (0, -35), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+
+#adjust chart margin and layout
+fig.tight_layout()
+
+# Save the figure to the specified path
+#fig.savefig('plot/streamgraph.png')
+
+#show chart
+plt.show()
+```
