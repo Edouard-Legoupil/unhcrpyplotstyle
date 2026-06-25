@@ -1,0 +1,2 @@
+# Set sequential purple color cycle
+axes.prop_cycle : cycler('color', ['E7E5F7', 'C3BEED', 'A097E3', '7E74C2', '5E578E', '403C5D'])

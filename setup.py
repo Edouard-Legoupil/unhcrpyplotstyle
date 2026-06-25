@@ -32,9 +32,9 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup( name='unhcrpyplotstyle',
-       version='0.1.3',
-       author='Lei Chen',
-       author_email="chen@unhcr.org",
+       version='0.2.0',
+       author='Edouard Legoupil',
+       author_email="legoupil@unhcr.org",
        description="Set matplotlib style following UNHCR's Data Visualization Guidelines",
        long_description = long_description,
        long_description_content_type='text/markdown',
@@ -45,7 +45,7 @@ setup( name='unhcrpyplotstyle',
         "matplotlib-styles",
         "python"
        ],
-       url="https://github.com/leichen88/unhcrpyplotstyle",
+       url="https://github.com/Edouard-Legoupil/unhcrpyplotstyle",
        install_requires=['matplotlib', ],
         packages=find_packages(),
        include_package_data=True,

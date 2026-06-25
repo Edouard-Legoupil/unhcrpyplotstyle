@@ -9,3 +9,6 @@ unhcrpyplotstyle.egg-info/
 dist/
 
 forpypi.txt
+
+.doc/
+unhcrpyplotstyle/__pycache__/

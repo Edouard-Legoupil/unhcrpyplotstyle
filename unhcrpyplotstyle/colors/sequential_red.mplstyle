@@ -1,2 +1,2 @@
-# Set sequentiel red color cycle
-axes.prop_cycle : cycler('color', ['FFE7E8', 'FFBCC1', 'FF8490', 'EF4A60', 'B41C37'])
+# Set sequential red color cycle
+axes.prop_cycle : cycler('color', ['FCE2DE', 'F9B3A7', 'F67F6A', 'D25A45', '9C4637', '683229'])

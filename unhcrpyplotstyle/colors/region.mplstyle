@@ -1,2 +1,2 @@
 # Set region color cycle
-axes.prop_cycle : cycler('color', ['0072BC', '589BE5', '8EBEFF', '18375F', '00B398', 'E1CC0D', 'EF4A60'])
+axes.prop_cycle : cycler('color', ['0072BC', '4F9ED0', '8FC1E1', 'FFC740', '32C189', 'A097E3', 'D25A45'])

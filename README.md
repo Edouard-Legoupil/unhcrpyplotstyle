@@ -12,7 +12,7 @@ The easiest way to install the `unhcrpyplotstyle` package is by using pip:
 pip install unhcrpyplotstyle
 
 # to install the latest Github commit
-pip install git+https://github.com/leichen88/unhcrpyplotstyle
+pip install git+https://github.com/Edouard-Legoupil/unhcrpyplotstyle
 ```
 
 The pip installation will automatically download and store all Matplotlib custom style files (*.mplstyle) in the appropriate local directory on your computer.
@@ -58,28 +58,28 @@ You can find the full list of styles based on chart types below:
 ## Example
 The chart with `unhcrpyplotstyle` + `column` styles:
 
-<img src="https://raw.githubusercontent.com/leichen88/unhcrpyplotstyle/main/example/python_column_chart-1.svg" width="500">
+<img src="https://raw.githubusercontent.com/Edouard-Legoupil/unhcrpyplotstyle/main/example/python_column_chart-1.svg" width="500">
 
 _Find code example for column chart [here](https://dataviz.unhcr.org/tutorials/matplotlib/comparison/#column)._
 
 
 The chart with `unhcrpyplotstyle` + `bar` styles:
 
-<img src="https://raw.githubusercontent.com/leichen88/unhcrpyplotstyle/main/example/python_bar_chart-1.svg" width="500">
+<img src="https://raw.githubusercontent.com/Edouard-Legoupil/unhcrpyplotstyle/main/example/python_bar_chart-1.svg" width="500">
 
 _Find code example for bar chart [here](https://dataviz.unhcr.org/tutorials/matplotlib/comparison/#bar)._
 
 
 The chart with `unhcrpyplotstyle` + `line` styles:
 
-<img src="https://raw.githubusercontent.com/leichen88/unhcrpyplotstyle/main/example/python_line_chart-1.svg" width="500">
+<img src="https://raw.githubusercontent.com/Edouard-Legoupil/unhcrpyplotstyle/main/example/python_line_chart-1.svg" width="500">
 
 _Find code example for line chart [here](https://dataviz.unhcr.org/tutorials/matplotlib/change-over-time/#line)._
 
 
 The chart with `unhcrpyplotstyle` + `scatterplot` styles:
 
-<img src="https://raw.githubusercontent.com/leichen88/unhcrpyplotstyle/main/example/python_scatterplot-1.svg" width="500">
+<img src="https://raw.githubusercontent.com/Edouard-Legoupil/unhcrpyplotstyle/main/example/python_scatterplot-1.svg" width="500">
 
 _Find code example for scatterplot [here](https://dataviz.unhcr.org/tutorials/matplotlib/correlation/#scatterplot)._
 

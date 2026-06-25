@@ -1,0 +1,557 @@
+---
+title: "unhcrpyplotstyle Demo"
+author: "Edouard Legoupil"
+date: "2026-06-25"
+
+format: unhcr-html
+jupyter: python3
+---
+
+With `unhcrpyplotstyle`, creating UNHCR-compliant visualizations in Python is straightforward, providing a consistent and branded look for your graphics.
+
+For more information on UNHCR data visualization guidelines, visit the [UNHCR Data Visualization Platform](https://dataviz.unhcr.org/).
+
+```{python}
+#| echo: false
+# Setup and imports
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from matplotlib.ticker import StrMethodFormatter
+
+# Set up the UNHCR style
+plt.style.use('unhcrpyplotstyle')
+
+# Create sample data similar to R example
+dates = list(range(2010, 2021))
+df = pd.DataFrame({
+    'date': dates * 2,
+    'val': [10.2, 10.2, 10.2, 11.5, 14, 15.8, 17, 19.5, 20.5, 24.5, 20.6,
+           4.9, 4.9, 4.9, 5.5, 5.5, 5.6, 5.6, 5.7, 5.7, 5.8, 5.9],
+    'set': ['Set 1'] * 11 + ['Set 2'] * 11
+})
+```
+
+# Styling Demo
+
+The `unhcrpyplotstyle` package provides Matplotlib styles following the [UNHCR Data Visualization Guidelines](https://dataviz.unhcr.org/download/UNHCR_Data_Visualization_Guidelines.pdf), ensuring that charts are professional and brand-compliant.
+
+## Basic Usage
+
+After installing the package, you can apply the UNHCR style to any Matplotlib chart:
+
+```{python}
+#| echo: false
+fig, ax = plt.subplots(figsize=(8, 6))
+
+# Create stacked column chart
+bottom = np.zeros(len(df[df['set'] == 'Set 1']))
+for i, group in enumerate(['Set 2', 'Set 1']):
+    subset = df[df['set'] == group]
+    ax.bar(subset['date'].astype(str), subset['val'], bottom=bottom, label=group, width=0.8)
+    bottom += subset['val'].values
+
+ax.set_title('My title | 2010-2020', fontsize=12, fontweight='bold', loc='left')
+ax.set_xlabel('date')
+ax.set_ylabel('values')
+ax.legend(title='')
+
+
+# Set chart source and copyright
+plt.annotate('Source: UNHCR Refugee Data Finder', (0,0), (0, -25), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+plt.annotate('©UNHCR, The UN Refugee Agency', (0,0), (0, -35), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+
+plt.tight_layout()
+plt.show()
+```
+
+## Grid Customization
+
+The UNHCR style allows you to control grid lines. By default, major Y grid lines are visible.
+
+```{python}
+#| echo: false
+fig, ax = plt.subplots(figsize=(8, 6))
+
+# Create stacked column chart with grid
+bottom = np.zeros(len(df[df['set'] == 'Set 1']))
+for i, group in enumerate(['Set 2', 'Set 1']):
+    subset = df[df['set'] == group]
+    ax.bar(subset['date'].astype(str), subset['val'], bottom=bottom, label=group, width=0.8)
+    bottom += subset['val'].values
+
+ax.set_title('My title | 2010-2020', fontsize=12, fontweight='bold', loc='left')
+ax.set_xlabel('date')
+ax.set_ylabel('values')
+ax.legend(title='')
+ax.grid(axis='y', color='#BFBFBF', linewidth=0.5)  # Only Y grid lines
+
+
+# Set chart source and copyright
+plt.annotate('Source: UNHCR Refugee Data Finder', (0,0), (0, -25), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+plt.annotate('©UNHCR, The UN Refugee Agency', (0,0), (0, -35), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+
+plt.tight_layout()
+plt.show()
+```
+
+## Axis Customization
+
+You can control axis visibility and appearance:
+
+```{python}
+#| echo: false
+fig, ax = plt.subplots(figsize=(8, 6))
+
+# Create stacked column chart with custom axis
+bottom = np.zeros(len(df[df['set'] == 'Set 1']))
+for i, group in enumerate(['Set 2', 'Set 1']):
+    subset = df[df['set'] == group]
+    ax.bar(subset['date'].astype(str), subset['val'], bottom=bottom, label=group, width=0.8)
+    bottom += subset['val'].values
+
+ax.set_title('My title | 2010-2020', fontsize=12, fontweight='bold', loc='left')
+ax.set_ylabel('values')
+ax.legend(title='')
+ax.grid(axis='y', color='#BFBFBF', linewidth=0.5)
+
+# Customize axis appearance
+ax.spines['bottom'].set_visible(True)  # Show X axis line
+ax.spines['left'].set_visible(False)   # Hide Y axis line
+ax.spines['right'].set_visible(False)  # Hide right spine
+ax.spines['top'].set_visible(False)    # Hide top spine
+
+# Adjust y-axis limits to remove extra space
+ax.set_ylim(0, df['val'].max() * 1.01)
+
+
+# Set chart source and copyright
+plt.annotate('Source: UNHCR Refugee Data Finder', (0,0), (0, -25), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+plt.annotate('©UNHCR, The UN Refugee Agency', (0,0), (0, -35), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+
+plt.tight_layout()
+plt.show()
+```
+
+## Text Customization
+
+The UNHCR style supports rich text formatting:
+
+```{python}
+#| echo: false
+fig, ax = plt.subplots(figsize=(8, 6))
+
+# Create stacked column chart with rich text
+bottom = np.zeros(len(df[df['set'] == 'Set 1']))
+for i, group in enumerate(['Set 2', 'Set 1']):
+    subset = df[df['set'] == group]
+    ax.bar(subset['date'].astype(str), subset['val'], bottom=bottom, label=group, width=0.8)
+    bottom += subset['val'].values
+
+# Rich text title (simulated with matplotlib text)
+main_title = ax.set_title('My title | 2010-2020', fontsize=12, fontweight='bold', loc='left')
+subtitle = ax.set_xlabel('My subtitle with automatic line wrapping for long text', fontsize=9, color='#4D4D4D')
+ax.set_ylabel('values')
+ax.legend(title='')
+ax.grid(axis='y', color='#BFBFBF', linewidth=0.5)
+
+# Customize axis appearance
+ax.spines['bottom'].set_visible(True)
+ax.spines['left'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.spines['top'].set_visible(False)
+ax.set_ylim(0, df['val'].max() * 1.01)
+
+
+# Set chart source and copyright
+plt.annotate('Source: UNHCR Refugee Data Finder', (0,0), (0, -25), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+plt.annotate('©UNHCR, The UN Refugee Agency', (0,0), (0, -35), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+
+plt.tight_layout()
+plt.show()
+```
+
+## Data Labels
+
+You can add data labels to your charts:
+
+```{python}
+#| echo: false
+fig, ax = plt.subplots(figsize=(8, 6))
+
+# Create stacked column chart with data labels
+bottom = np.zeros(len(df[df['set'] == 'Set 1']))
+label_positions = []
+
+for i, group in enumerate(['Set 2', 'Set 1']):
+    subset = df[df['set'] == group]
+    bars = ax.bar(subset['date'].astype(str), subset['val'], bottom=bottom, label=group, width=0.8)
+    
+    # Add data labels
+    for bar_idx, (bar, value) in enumerate(zip(bars, subset['val'])):
+        height = bar.get_height()
+        if height > 0:  # Only add label if there's space
+            # Get the x position of the bar
+            x_pos = bar.get_x() + bar.get_width()/2
+            # Calculate y position based on current bottom and height
+            y_pos = bottom[bar_idx] + height/2
+            label_positions.append((bar_idx, y_pos, f"{value:.1f}"))
+            ax.text(x_pos, y_pos, f"{value:.1f}",
+                   ha='center', va='center', fontsize=8, color='#4D4D4D')
+    
+    # Convert subset values to numpy array and add to bottom
+    bottom += subset['val'].values
+
+ax.set_title('My title | 2010-2020', fontsize=12, fontweight='bold', loc='left')
+ax.set_ylabel('values')
+ax.legend(title='')
+ax.grid(axis='y', color='#BFBFBF', linewidth=0.5)
+
+# Customize axis appearance
+ax.spines['bottom'].set_visible(True)
+ax.spines['left'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.spines['top'].set_visible(False)
+ax.set_ylim(0, df['val'].max() * 1.01)
+
+
+# Set chart source and copyright
+plt.annotate('Source: UNHCR Refugee Data Finder', (0,0), (0, -25), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+plt.annotate('©UNHCR, The UN Refugee Agency', (0,0), (0, -35), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+
+plt.tight_layout()
+plt.show()
+```
+
+## Color Palettes
+
+The package includes UNHCR color palettes. Here's an example using the sequential blue palette:
+
+```{python}
+#| echo: false
+# Use sequential blue color palette
+plt.style.use(['unhcrpyplotstyle', 'sequential_blue'])
+
+fig, ax = plt.subplots(figsize=(8, 6))
+
+# Create stacked column chart with UNHCR colors
+bottom = np.zeros(len(df[df['set'] == 'Set 1']))
+unhcr_colors = ['#CDE3F1', '#8FC1E1', '#4F9ED0', '#0072BC', '#05568B', '#0B3754']
+
+for i, group in enumerate(['Set 2', 'Set 1']):
+    subset = df[df['set'] == group]
+    color = unhcr_colors[i * 2]  # Use different colors from palette
+    ax.bar(subset['date'].astype(str), subset['val'], bottom=bottom, label=group, width=0.8, color=color)
+    bottom += subset['val'].values
+
+ax.set_title('My title | 2010-2020', fontsize=12, fontweight='bold', loc='left')
+ax.set_ylabel('values')
+ax.legend(title='')
+ax.grid(axis='y', color='#BFBFBF', linewidth=0.5)
+
+# Customize axis appearance
+ax.spines['bottom'].set_visible(True)
+ax.spines['left'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.spines['top'].set_visible(False)
+ax.set_ylim(0, df['val'].max() * 1.01)
+
+
+# Set chart source and copyright
+plt.annotate('Source: UNHCR Refugee Data Finder', (0,0), (0, -25), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+plt.annotate('©UNHCR, The UN Refugee Agency', (0,0), (0, -35), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+
+plt.tight_layout()
+plt.show()
+
+# Reset to base style
+plt.style.use('unhcrpyplotstyle')
+```
+
+## Void Theme (Minimal)
+
+For pie charts or maps, you can use a minimal theme:
+
+```{python}
+#| echo: false
+# Create pie chart data
+pie_data = df[df['date'] == 2020]
+
+fig, ax = plt.subplots(figsize=(6, 6))
+
+# Create pie chart
+colors = ['#0072BC', '#4F9ED0']
+ax.pie(pie_data['val'], labels=pie_data['set'], colors=colors, startangle=90, counterclock=False)
+
+ax.set_title('My title | 2020', fontsize=12, fontweight='bold', loc='left')
+
+# Remove all grid lines, ticks, and axes (void theme)
+ax.set_xticks([])
+ax.set_yticks([])
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.spines['left'].set_visible(False)
+ax.spines['bottom'].set_visible(False)
+
+
+# Set chart source and copyright
+plt.annotate('Source: UNHCR Refugee Data Finder', (0,0), (0, -25), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+plt.annotate('©UNHCR, The UN Refugee Agency', (0,0), (0, -35), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+
+plt.tight_layout()
+plt.show()
+```
+
+## Available Color Palettes
+
+The `unhcrpyplotstyle` package includes several color palettes:
+
+- **Sequential**: `sequential_blue`, `sequential_green`, `sequential_yellow`, `sequential_red`, `sequential_cyan`, `sequential_purple`
+- **Diverging**: `diverging_blue_red`, `diverging_navy_red`
+- **Category**: `region`, `poc`
+
+ 
+
+
+# Charts type
+
+## Area Chart
+
+An area chart, like a line chart, displays the evolution of numeric variables over a continuous period of time. However, in an area chart, the area between the line and x-axis is filled with colour or texture.
+
+```{python}
+#| echo: false
+# Setup and imports
+# import libraries
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+plt.style.use(['unhcrpyplotstyle', 'area'])
+
+# Load and reshape the data
+df = pd.read_csv('https://raw.githubusercontent.com/GDS-ODSSS/unhcr-dataviz-platform/master/data/change_over_time/area.csv')
+df = df.pivot(index='year', columns='population_type', values='population_number')
+df = df.reset_index()
+
+# Compute data for plotting
+x = df['year']
+y = df['Refugees']
+
+# Plot the chart
+fig, ax = plt.subplots()
+ax.stackplot(x, y, alpha=0.7)
+
+# Set chart title
+ax.set_title('Number of refugees | 1990-2021')
+
+# Set y-axis label
+ax.set_ylabel('Number of people (millions)')
+
+# Format y-axis tick labels
+def number_formatter(x, pos):
+    if x >= 1e6:
+        s = '{:1.0f}M'.format(x*1e-6)
+    elif x < 1e6 and x > 0:
+        s = '{:1.0f}K'.format(x*1e-3)
+    else:
+        s = '{:1.0f}'.format(x)
+    return s
+ax.yaxis.set_major_formatter(number_formatter)
+
+# Set chart source and copyright
+plt.annotate('Source: UNHCR Refugee Data Finder', (0,0), (0, -25), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+plt.annotate('©UNHCR, The UN Refugee Agency', (0,0), (0, -35), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+
+# Adjust chart margin and layout
+fig.tight_layout()
+
+# Save the figure to the specified path
+#fig.savefig('plot/area-chart.png')
+
+plt.show()
+```
+
+## Dot plot
+
+A dot plot is a type of graph in which the dots are connected to show changes or differences. It’s an alternative to the grouped bar chart or slope chart.
+
+```{python}
+#| echo: false
+# Setup and imports
+# import libraries
+# import libraries
+import matplotlib.pyplot as plt
+import pandas as pd
+from textwrap import wrap
+plt.style.use(['unhcrpyplotstyle','dotplot'])
+
+#load and reshape the data
+df = pd.read_csv('https://raw.githubusercontent.com/GDS-ODSSS/unhcr-dataviz-platform/master/data/change_over_time/dot_plot.csv')
+df = df.pivot_table(index=['location','order'], columns='period', values='percent', sort=False)
+df = df.reset_index()
+
+#sort values in descending order
+ordered_df = df.sort_values(by='order', ascending=False)
+
+#wrap the long labels
+y_labels = ordered_df['location']
+wrapped_label = [ '\n'.join(wrap(l, 20)) for l in y_labels ]
+
+#plot the chart
+fig, ax = plt.subplots()
+plt.scatter(ordered_df['before_covid'], wrapped_label, label='before_covid')
+plt.scatter(ordered_df['first_months'], wrapped_label, label='first_months')
+plt.hlines(y=wrapped_label, xmin=ordered_df['before_covid'], xmax=ordered_df['first_months'], color='#666666')
+
+#set chart legend
+ax.legend(labels = ["Before COVID-19", "First month of the crisis"], loc=(0,1.05), ncol=2)
+
+#set chart title
+ax.set_title('COVID-19 impact on poverty rates of informal workers', pad=50)
+
+# xticks and xticklabel format
+limit = plt.xlim(0, 1)
+vals = ax.get_xticks()
+ax.set_xticks(vals)
+ax.set_xticklabels(['{:,.0%}'.format(x) for x in vals])
+
+#set chart source and copyright
+plt.annotate('Source: UNHCR Refugee Data Finder', (0,0), (0, -25), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+plt.annotate('©UNHCR, The UN Refugee Agency', (0,0), (0, -35), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+
+#adjust chart margin and layout
+fig.tight_layout()
+
+# Save the figure to the specified path
+#fig.savefig('plot/dotplot.png')
+
+#show chart
+plt.show()
+```
+
+## Line chart
+
+A line chart is a type of chart that displays the evolution of one or several numeric variables over a continuous interval or time period. Typically, the x-axis is used for a timescale or a sequence of intervals, while the y-axis reports values across that progression.
+
+```{python}
+#| echo: false
+# Setup and imports
+# import libraries
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+plt.style.use(['unhcrpyplotstyle','line'])
+
+#compute data array for plotting
+df = pd.read_csv('https://raw.githubusercontent.com/GDS-ODSSS/unhcr-dataviz-platform/master/data/change_over_time/line.csv')
+
+df = df.pivot(index='year', columns='population_type', values='population_number')
+df = df.reset_index()
+
+#compute data for plotting
+x = df['year']
+y = df['Refugees']
+
+#plot the chart
+fig, ax = plt.subplots()
+bar_plot = ax.plot(x, y)
+
+#set chart title
+ax.set_title('Number of refugees | 1990-2021')
+
+#set y-axis label
+ax.set_ylabel('Number of people (millions)')
+
+#set y-axis limit
+ylimit = plt.ylim(8 * 1e6, 22 * 1e6)
+
+#format x-axis tick labels
+def number_formatter(x, pos):
+    if x >= 1e6:
+        s = '{:1.0f}M'.format(x*1e-6)
+    elif x < 1e6 and x > 0:
+        s = '{:1.0f}K'.format(x*1e-3)
+    else:
+        s = '{:1.0f}'.format(x)
+    return s
+ax.yaxis.set_major_formatter(number_formatter)
+
+#set chart source and copyright
+plt.annotate('Source: UNHCR Refugee Data Finder', (0,0), (0, -25), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+plt.annotate('©UNHCR, The UN Refugee Agency', (0,0), (0, -35), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+
+#adjust chart margin and layout
+fig.tight_layout()
+
+# Save the figure manually to the specified path
+#fig.savefig('plot/single-line.png')
+
+#show chart
+plt.show()
+```
+
+
+
+## Line column chart
+
+A line column chart is a type of visualization that combines both line and column charts together, using dual axes displayed on the left and right sides of the chart. It allows us to show the relationship of two variables with different magnitudes and scales.
+
+```{python}
+#| echo: false
+# import libraries
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+plt.style.use(['unhcrpyplotstyle','linecolumn'])
+
+#compute data array for plotting
+df = pd.read_csv('https://raw.githubusercontent.com/GDS-ODSSS/unhcr-dataviz-platform/master/data/change_over_time/line_column.csv')
+
+#compute data for plotting
+x = df['year']
+y_col = df['displaced_population']
+y_line = df['displaced_proportion']
+
+#plot the bar
+fig, ax1 = plt.subplots()
+bar_plot=ax1.bar(x, y_col, label = 'Displaced population')
+#set y axis limits
+ylim1 = plt.ylim(0,100)
+
+#plot the line that share the same x-axis with bar
+ax2 = ax1.twinx()
+line_plot=ax2.plot(x, y_line, color='#EF4A60', label = 'Porportion displaced')
+#set y axis limits
+ylim2 = plt.ylim(0,10)
+
+#set x axis ticks
+ax1.set_xticks(x)
+
+#set chart title
+ax1.set_title('Trend of global displacement | 2007 - 2016', pad=50)
+
+#set chart legend
+ax1.legend(loc=(0,1.05), ncol=1)
+ax2.legend(loc=(0.3,1.05), ncol=1)
+
+#set y-axis label
+ax1.set_ylabel('Displaced population (millions)')
+ax2.set_ylabel('Proportion displaced (number displaced per 1,000)')
+
+#remove all ticks
+ax1.tick_params(bottom=False,left=False)
+ax2.tick_params(bottom=False, right=False)
+
+#set chart source and copyright
+plt.annotate('Source: UNHCR Refugee Data Finder', (0,0), (0, -25), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+plt.annotate('©UNHCR, The UN Refugee Agency', (0,0), (0, -35), xycoords='axes fraction', textcoords='offset points', va='top', color = '#666666', fontsize=9)
+
+#adjust chart margin and layout
+fig.tight_layout()
+
+# Save the figure to the specified path
+#fig.savefig('plot/line-column.png')
+
+#show chart
+plt.show()
+```

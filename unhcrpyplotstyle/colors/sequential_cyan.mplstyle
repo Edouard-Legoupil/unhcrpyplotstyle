@@ -1,0 +1,2 @@
+# Set sequential cyan color cycle
+axes.prop_cycle : cycler('color', ['D4F3FE', '6CD8FD', '01B6F2', '0493C2', '087295', '0B5269'])
